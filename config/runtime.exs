@@ -20,10 +20,10 @@ if System.get_env("PHX_SERVER") do
   config :schnur, SchnurWeb.Endpoint, server: true
 end
 
-config :schnur, SchnurWeb.Endpoint,
-  http: [port: String.to_integer(System.get_env("PORT", "4000"))]
-
 if config_env() == :dev do
+  config :schnur, SchnurWeb.Endpoint,
+    http: [port: String.to_integer(System.get_env("PORT", "4001"))]
+
   # Reload browser tabs when matching files change.
   config :schnur, SchnurWeb.Endpoint,
     live_reload: [
@@ -41,6 +41,9 @@ if config_env() == :dev do
 end
 
 if config_env() == :prod do
+  config :schnur, SchnurWeb.Endpoint,
+    http: [port: String.to_integer(System.get_env("PORT", "4000"))]
+
   database_path =
     System.get_env("DATABASE_PATH") ||
       raise """
