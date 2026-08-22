@@ -9,5 +9,11 @@ if ! mix format --check-formatted; then
   exit 1
 fi
 
+echo "==> Running credo..."
+if ! mix credo --strict; then
+  echo "❌ Linting failed. Please fix credo issues."
+  exit 1
+fi
+
 echo "✅ All pre-commit checks passed."
 exit 0

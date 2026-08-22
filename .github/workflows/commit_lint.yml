@@ -1,0 +1,51 @@
+name: Commit Lint
+
+on:
+  pull_request:
+    branches: ["main"]
+
+permissions:
+  contents: read
+
+jobs:
+  lint-commits:
+    name: Lint Commit Messages
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          # Fetch all history for all tags and branches so we can read the PR commits
+          fetch-depth: 0
+
+      - name: Validate Scoped Commits
+        run: |
+          # Scoped Commits: "<scope>: <description>" (https://scopedcommits.com/)
+          # Example: "db: switch Ecto adapter to PostgreSQL"
+          REGEX="^[a-zA-Z0-9_\-]+: [A-Z0-9a-z].*"
+
+          # Initialize error tracking
+          VIOLATIONS=0
+          ERROR_MESSAGES=""
+
+          # Get the list of commit SHAs in this PR
+          COMMITS=$(git log --no-merges --format=%H ${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }})
+
+          for SHA in $COMMITS; do
+            # Get the raw commit message subject
+            SUBJECT=$(git log --format=%s -n 1 $SHA)
+
+            if ! [[ "$SUBJECT" =~ $REGEX ]]; then
+              VIOLATIONS=$((VIOLATIONS+1))
+              ERROR_MESSAGES="$ERROR_MESSAGES\n❌ Commit $SHA violated rules:\n   Subject: \"$SUBJECT\"\n   Expected format: \"scope: Description\" (e.g., \"ui: update button color\")\n"
+            fi
+          done
+
+          if [ $VIOLATIONS -gt 0 ]; then
+            echo "🚨 Found $VIOLATIONS commit(s) violating the Scoped Commit standard:"
+            printf "%b\n" "$ERROR_MESSAGES"
+            echo "Please rebase and reword your commits to match the standard."
+            exit 1
+          else
+            echo "✅ All commits match the Scoped Commit standard."
+          fi
