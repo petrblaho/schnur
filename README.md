@@ -1,13 +1,33 @@
 # Schnur
 
-To start your Phoenix server:
+Collaborative note-taking for tabletop RPG campaigns, with an LLM "Scribe"
+that weaves raw, timestamped notes into a structured, interconnected wiki
+(characters, places, items, events).
 
-* Run `mix setup` to install and setup dependencies
-* Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
+See [docs/superpowers/specs/2026-08-21-schnur-core-architecture-design.md](docs/superpowers/specs/2026-08-21-schnur-core-architecture-design.md)
+for the core architecture and Scribe design.
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+## Prerequisites
 
-Ready to run in production? Please [check our deployment guides](https://phoenix.hexdocs.pm/deployment.html).
+* Elixir 1.20.3 / OTP 29 — pinned via [mise](https://mise.jdx.dev/); run `mise install`
+* PostgreSQL. Start the bundled database with:
+
+      podman-compose up -d      # or: docker compose up -d
+
+  This runs PostgreSQL 17 on host port **5433** (matching the dev/test
+  config in `config/`). The port differs from the default 5432 to avoid
+  clashing with other local PostgreSQL instances.
+
+## Running
+
+* `mix setup` — install dependencies, create and migrate the database, and build assets
+* `mix phx.server` (or `iex -S mix phx.server`) — start the Phoenix endpoint
+
+Now you can visit [`localhost:4001`](http://localhost:4001) from your browser.
+The dev port defaults to **4001** (override with the `PORT` env var); 4000 is
+intentionally avoided as it is used by the local LiteLLM proxy.
+
+Ready to run in production? Please [check the deployment guides](https://phoenix.hexdocs.pm/deployment.html).
 
 ## Learn more
 
