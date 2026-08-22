@@ -39,3 +39,9 @@ npm-debug.log
 *.db
 *.db-*
 
+# Dialyzer PLT files.
+/.plts/
+
+# Local tooling artifacts.
+.mix_tasks
+
