@@ -8,6 +8,7 @@
     "lib/schnur/application.ex",
     "lib/schnur/repo.ex",
     "lib/schnur/mailer.ex",
+    "lib/schnur/schema.ex",
     "lib/schnur_web.ex",
     "lib/schnur_web/telemetry.ex",
     "lib/schnur_web/endpoint.ex",
