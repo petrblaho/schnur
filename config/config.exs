@@ -11,6 +11,14 @@ config :schnur,
   ecto_repos: [Schnur.Repo],
   generators: [timestamp_type: :utc_datetime, binary_id: true]
 
+config :schnur, Oban,
+  engine: Oban.Engines.Basic,
+  repo: Schnur.Repo,
+  queues: [scribe: 1],
+  plugins: [
+    {Oban.Plugins.Pruner, max_age: 60 * 60 * 24 * 7}
+  ]
+
 # Configure the endpoint
 config :schnur, SchnurWeb.Endpoint,
   url: [host: "localhost"],
