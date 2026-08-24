@@ -13,7 +13,11 @@ defmodule Schnur.MixProject do
       compilers: [:phoenix_live_view] ++ Mix.compilers(),
       listeners: [Phoenix.CodeReloader],
       test_coverage: [tool: ExCoveralls],
-      dialyzer: [plt_local_path: ".plts", plt_core_path: ".plts"]
+      dialyzer: [
+        plt_local_path: ".plts",
+        plt_core_path: ".plts",
+        plt_add_apps: [:ex_unit]
+      ]
     ]
   end
 
