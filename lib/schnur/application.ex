@@ -14,6 +14,7 @@ defmodule Schnur.Application do
        repos: Application.fetch_env!(:schnur, :ecto_repos), skip: skip_migrations?()},
       {DNSCluster, query: Application.get_env(:schnur, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: Schnur.PubSub},
+      {Oban, Application.fetch_env!(:schnur, Oban)},
       # Start a worker by calling: Schnur.Worker.start_link(arg)
       # {Schnur.Worker, arg},
       # Start to serve requests, typically the last entry

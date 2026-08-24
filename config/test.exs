@@ -40,3 +40,7 @@ config :phoenix_live_view,
 # Sort query params output of verified routes for robust url comparisons
 config :phoenix,
   sort_verified_routes_query_params: true
+
+# Oban should not run queues or plugins during tests; assert jobs via
+# `Oban.Testing` in :manual mode.
+config :schnur, Oban, testing: :manual
