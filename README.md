@@ -29,6 +29,17 @@ intentionally avoided as it is used by the local LiteLLM proxy.
 
 Ready to run in production? Please [check the deployment guides](https://phoenix.hexdocs.pm/deployment.html).
 
+## Foundations
+
+- **UUIDv7 keys.** All Ecto schemas `use Schnur.Schema` (see `lib/schnur/schema.ex`)
+  instead of `use Ecto.Schema`. This sets UUIDv7 primary keys and UUID foreign keys.
+  UUIDv7 is time-ordered, so IDs double as a chronological ordering key.
+  In migrations, declare id/foreign-key columns as `:binary`.
+- **Background jobs (Oban).** Scribe work runs on the `scribe` queue at
+  `concurrency: 1` (see `config/config.exs`), serializing processing to match
+  append order. In tests, Oban runs in `:manual` mode — assert jobs with
+  `Oban.Testing` rather than executing them.
+
 ## Learn more
 
 * Official website: https://www.phoenixframework.org/
