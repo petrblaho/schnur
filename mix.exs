@@ -113,7 +113,8 @@ defmodule Schnur.MixProject do
         "esbuild schnur --minify",
         "phx.digest"
       ],
-      precommit: ["compile --warnings-as-errors", "deps.unlock --unused", "format", "test"]
+      precommit: ["compile --warnings-as-errors", "deps.unlock --unused", "format", "test"],
+      "dialyzer.build": ["dialyzer --plt"]
     ]
   end
 end
