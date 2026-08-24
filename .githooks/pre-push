@@ -9,8 +9,8 @@ if ! mix coveralls; then
   exit 1
 fi
 
-echo "==> Running dialyzer..."
-if ! mix dialyzer; then
+echo "==> Running dialyzer (test env, matches CI)..."
+if ! MIX_ENV=test mix dialyzer; then
   echo "❌ Typechecking failed."
   exit 1
 fi
